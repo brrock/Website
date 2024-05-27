@@ -20,7 +20,7 @@ export function MainNav() {
           "text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block text-foreground/60 ",
         )}
       >
-        TechBlog
+        Tech Blog
       </Link>
       <Link
         href="/about"
