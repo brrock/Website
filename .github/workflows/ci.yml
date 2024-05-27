@@ -1,20 +1,26 @@
-name: CI
-on: [push]
+name: Lighthouse Desktop Config
+
+on:
+  # push:
+  #   branches:
+  #     - master
+  schedule:
+    - cron: '*/180 * * * *'
+  repository_dispatch:
+    types: lighthouse
+
 jobs:
-  lhci:
-    name: Lighthouse
+  lighthouse:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+
+      - name: Run Lighthouse on urls and validate with lighthouserc
+        uses: treosh/lighthouse-ci-action@v2
         with:
-          node-version: 18.x
-      - name: npm install, build
-        run: |
-          npm install
-          npm run build
-      - name: run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.13.x
-          lhci autorun
+          urls: |
+            https://website-nine-tau-42.vercel.app/
+          runs: 1
+          configPath: '.github/lighthouse/custom-config/lighthouserc-desktop-config.json'
+          uploadArtifacts: true
